@@ -4,7 +4,7 @@ import MainLayout from "@/components/layout/MainLayout";
 import { UploadZone } from "@/components/UploadZone";
 import { Gallery } from "@/components/Gallery";
 import { Button } from "@/components/ui/button";
-import { PlusIcon, WandIcon, MagicWandIcon } from "lucide-react";
+import { PlusIcon, WandIcon, Wand2Icon } from "lucide-react";
 import { toast } from "sonner";
 
 // Sample image data (in a real app, this would come from an API/backend)
@@ -84,7 +84,7 @@ const Index = () => {
           <section className="glass rounded-xl p-6 md:p-8 animate-fade-in">
             <div className="max-w-3xl mx-auto text-center space-y-4">
               <div className="inline-block p-3 rounded-full bg-primary/20 mb-2">
-                <MagicWandIcon className="w-6 h-6 text-primary" />
+                <Wand2Icon className="w-6 h-6 text-primary" />
               </div>
               <h1 className="text-3xl md:text-4xl font-bold leading-tight">
                 Explore Images with AI-Powered Lens

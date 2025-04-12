@@ -1,6 +1,6 @@
 
 import React from "react";
-import { MagicWandIcon, ImageIcon, UploadIcon, UserIcon, SettingsIcon } from "lucide-react";
+import { Wand2Icon, ImageIcon, UploadIcon, UserIcon, SettingsIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
