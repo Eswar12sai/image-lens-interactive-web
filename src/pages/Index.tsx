@@ -1,145 +1,140 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MainLayout from "@/components/layout/MainLayout";
-import { UploadZone } from "@/components/UploadZone";
-import { Gallery } from "@/components/Gallery";
 import { Button } from "@/components/ui/button";
-import { PlusIcon, WandIcon, Wand2Icon } from "lucide-react";
-import { toast } from "sonner";
-
-// Sample image data (in a real app, this would come from an API/backend)
-const SAMPLE_IMAGES = [
-  {
-    id: "1",
-    src: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&auto=format&fit=crop",
-    alt: "Woman using laptop",
-    title: "Home office setup"
-  },
-  {
-    id: "2",
-    src: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&auto=format&fit=crop",
-    alt: "Laptop code",
-    title: "Programming screen"
-  },
-  {
-    id: "3",
-    src: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop",
-    alt: "Circuit board",
-    title: "Tech hardware"
-  },
-  {
-    id: "4",
-    src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&auto=format&fit=crop",
-    alt: "Code on screen",
-    title: "Development environment"
-  },
-  {
-    id: "5",
-    src: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&auto=format&fit=crop",
-    alt: "Person using laptop",
-    title: "Modern workspace"
-  },
-  {
-    id: "6",
-    src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop",
-    alt: "Woman using laptop",
-    title: "Remote work"
-  }
-];
+import { Card, CardContent } from "@/components/ui/card";
+import { BuildingIcon, PieChartIcon, ShieldCheckIcon, ArrowRightIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
-  const [images, setImages] = useState(SAMPLE_IMAGES);
-  const [showUpload, setShowUpload] = useState(false);
-  
-  const handleUpload = (files: File[]) => {
-    // In a real app, we would upload these files to a server
-    // Here we just create local object URLs for demonstration
-    const newImages = files.map((file, index) => ({
-      id: Date.now().toString() + index,
-      src: URL.createObjectURL(file),
-      alt: file.name,
-      title: file.name.split('.')[0]
-    }));
-    
-    setImages(prev => [...newImages, ...prev]);
-    setShowUpload(false);
-    toast.success(`${files.length} image${files.length > 1 ? 's' : ''} uploaded successfully!`);
-  };
-  
-  // Clean up object URLs on unmount
-  useEffect(() => {
-    return () => {
-      images.forEach(image => {
-        if (image.src.startsWith('blob:')) {
-          URL.revokeObjectURL(image.src);
-        }
-      });
-    };
-  }, [images]);
-  
   return (
     <MainLayout>
-      <div className="container py-8 px-4 md:px-6 max-w-7xl">
-        <div className="flex flex-col space-y-8">
-          <section className="glass rounded-xl p-6 md:p-8 animate-fade-in">
-            <div className="max-w-3xl mx-auto text-center space-y-4">
+      <div className="container py-12 px-4 md:px-6 max-w-7xl">
+        <div className="flex flex-col space-y-12">
+          {/* Hero Section */}
+          <section className="glass rounded-xl p-8 md:p-12 animate-fade-in">
+            <div className="max-w-3xl mx-auto text-center space-y-6">
               <div className="inline-block p-3 rounded-full bg-primary/20 mb-2">
-                <Wand2Icon className="w-6 h-6 text-primary" />
+                <BuildingIcon className="w-6 h-6 text-primary" />
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold leading-tight">
-                Explore Images with AI-Powered Lens
+              <h1 className="text-4xl md:text-5xl font-bold leading-tight">
+                Smarter Commercial Lease Management
               </h1>
               <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-                Upload, analyze, and transform your images with our intelligent tools. 
-                Zoom in with precision and discover details you never noticed before.
+                Leverage AI-powered analytics, market insights, and risk management tools to optimize your commercial real estate decisions.
               </p>
-              <div className="flex flex-wrap justify-center gap-3 pt-2">
-                <Button size="lg" className="gap-2">
-                  <PlusIcon className="w-4 h-4" />
-                  <span>Upload Images</span>
+              <div className="flex flex-wrap justify-center gap-4 pt-2">
+                <Button size="lg" asChild className="gap-2">
+                  <Link to="/solutions">
+                    <span>Explore Solutions</span>
+                    <ArrowRightIcon className="w-4 h-4" />
+                  </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2">
-                  <WandIcon className="w-4 h-4" />
-                  <span>Try AI Features</span>
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/contact">Request Demo</Link>
                 </Button>
               </div>
             </div>
           </section>
           
-          {showUpload ? (
-            <section className="glass rounded-xl p-6 md:p-8 animate-zoom-in">
-              <UploadZone onUpload={handleUpload} />
-            </section>
-          ) : (
-            <section className="flex flex-col md:flex-row gap-4">
-              <div className="glass rounded-xl p-6 md:flex-1 animate-fade-in">
-                <h2 className="text-xl font-medium mb-4">Start Adding Images</h2>
-                <p className="text-muted-foreground mb-4">
-                  Upload your images to explore them with our advanced lens technology and AI tools.
-                </p>
-                <Button onClick={() => setShowUpload(true)}>Upload Images</Button>
-              </div>
+          {/* Features Section */}
+          <section className="space-y-6">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold">Our Solutions</h2>
+              <p className="text-muted-foreground mt-2">Comprehensive tools for modern real estate professionals</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Card className="glass hover-scale">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <BuildingIcon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">AI Lease Analyzer</h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Automatically extract key terms, conditions, and obligations from complex lease documents with our AI-powered analysis.
+                  </p>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/solutions">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
               
-              <div className="glass rounded-xl p-6 md:flex-1 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-                <h2 className="text-xl font-medium mb-4">AI Features</h2>
-                <p className="text-muted-foreground mb-4">
-                  Our AI can enhance, analyze, and help you discover new aspects of your images.
-                </p>
-                <Button variant="secondary">Explore AI Tools</Button>
-              </div>
+              <Card className="glass hover-scale">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <PieChartIcon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Market Insights</h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Make informed decisions with real-time market analytics, trend forecasting, and competitive property comparisons.
+                  </p>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/solutions">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
               
-              <div className="glass rounded-xl p-6 md:flex-1 animate-fade-in" style={{ animationDelay: "0.2s" }}>
-                <h2 className="text-xl font-medium mb-4">Interactive Lens</h2>
-                <p className="text-muted-foreground mb-4">
-                  Use our magnifying lens to zoom in and explore the details of your images.
-                </p>
-                <Button variant="outline">Learn More</Button>
-              </div>
-            </section>
-          )}
+              <Card className="glass hover-scale">
+                <CardContent className="p-6 text-center">
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-primary/20 flex items-center justify-center">
+                    <ShieldCheckIcon className="w-6 h-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2">Risk Management</h3>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Identify and mitigate potential risks with advanced assessment tools, compliance tracking, and liability analysis.
+                  </p>
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to="/solutions">Learn More</Link>
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
           
-          <section className="glass rounded-xl p-6 md:p-8 animate-fade-in">
-            <Gallery images={images} />
+          {/* Stats Section */}
+          <section className="glass rounded-xl p-8 animate-fade-in">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold">Trusted by Industry Leaders</h2>
+              <p className="text-muted-foreground">Powering commercial real estate decisions worldwide</p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+              <div>
+                <p className="text-3xl font-bold text-primary mb-1">500+</p>
+                <p className="text-sm text-muted-foreground">Enterprise Clients</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-primary mb-1">10K+</p>
+                <p className="text-sm text-muted-foreground">Properties Analyzed</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-primary mb-1">$2B+</p>
+                <p className="text-sm text-muted-foreground">Transaction Value</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-primary mb-1">98%</p>
+                <p className="text-sm text-muted-foreground">Client Retention</p>
+              </div>
+            </div>
+          </section>
+          
+          {/* CTA Section */}
+          <section className="glass rounded-xl p-8 md:p-12 animate-fade-in bg-gradient-to-r from-primary/20 to-secondary/20">
+            <div className="max-w-3xl mx-auto text-center space-y-6">
+              <h2 className="text-3xl font-bold">Ready to Transform Your Leasing Process?</h2>
+              <p className="text-muted-foreground">
+                Join hundreds of commercial real estate professionals who are saving time, reducing risk, and making smarter decisions with LeaseLens.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4 pt-2">
+                <Button size="lg" asChild>
+                  <Link to="/signup">Get Started</Link>
+                </Button>
+                <Button size="lg" variant="outline" asChild>
+                  <Link to="/contact">Contact Sales</Link>
+                </Button>
+              </div>
+            </div>
           </section>
         </div>
       </div>
