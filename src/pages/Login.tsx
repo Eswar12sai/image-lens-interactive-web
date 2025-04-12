@@ -14,12 +14,23 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { BuildingIcon, LockIcon } from "lucide-react";
+import { LockIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { useAuth } from "@/contexts/AuthContext";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useState } from "react";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
 
 const Login = () => {
-  const form = useForm({
+  const { login } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+  
+  const form = useForm<LoginFormData>({
     defaultValues: {
       email: "",
       password: "",
@@ -27,11 +38,14 @@ const Login = () => {
     }
   });
   
-  const onSubmit = (data: any) => {
-    // In a real app, this would authenticate the user
+  const onSubmit = async (data: LoginFormData) => {
+    setError(null);
     console.log(data);
-    toast.success("Successfully logged in!");
-    // Redirect to dashboard would happen here
+    const success = await login(data);
+    
+    if (!success) {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -46,6 +60,12 @@ const Login = () => {
             <CardDescription>Access your account to manage your commercial real estate portfolio</CardDescription>
           </CardHeader>
           <CardContent>
+            {error && (
+              <Alert variant="destructive" className="mb-6">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                 <FormField

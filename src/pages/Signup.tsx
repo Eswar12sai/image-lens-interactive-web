@@ -14,12 +14,35 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { BuildingIcon, UserPlusIcon } from "lucide-react";
+import { UserPlusIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { toast } from "sonner";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth } from "@/contexts/AuthContext";
+
+// Define the form schema
+const signupSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email address"),
+  company: z.string().optional(),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  confirmPassword: z.string().min(1, "Please confirm your password"),
+  terms: z.boolean().refine(val => val === true, {
+    message: "You must agree to the terms and conditions"
+  })
+}).refine(data => data.password === data.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"]
+});
+
+type SignupFormData = z.infer<typeof signupSchema>;
 
 const Signup = () => {
-  const form = useForm({
+  const { signup } = useAuth();
+  
+  const form = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       firstName: "",
       lastName: "",
@@ -31,11 +54,9 @@ const Signup = () => {
     }
   });
   
-  const onSubmit = (data: any) => {
-    // In a real app, this would register the user
+  const onSubmit = async (data: SignupFormData) => {
     console.log(data);
-    toast.success("Account created successfully! Please check your email to verify your account.");
-    // Redirect to login would happen here
+    await signup(data);
   };
 
   return (
